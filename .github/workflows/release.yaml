@@ -4,6 +4,7 @@ on:
   push:
     branches:
       - main
+      - yyukhymovych-patch-1
 
 jobs:
   release:
