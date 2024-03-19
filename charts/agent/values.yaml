@@ -192,6 +192,10 @@ config:
           statements:
             # fix duplication: replace 127.0.0.1:8888 => host.name value
             - set(attributes["service.instance.id"], attributes["host.name"]) where attributes["service.name"] == "{{ .Values.info.name }}"
+        - context: datapoint
+          statements:
+            # set label tag_project from tag_namespace for YACE metrics
+            - set(attributes["tag_project"], attributes["tag_namespace"]) where attributes["yace"] == "1" and attributes["tag_project"] == nil
     k8sattributes:
       auth_type: "serviceAccount"
       passthrough: false
@@ -482,6 +486,12 @@ prometheus:
           kubernetes_sd_configs: *sd-pod
           honor_labels: false
           scrape_interval: 15s
+          metric_relabel_configs:
+          - source_labels: [__name__]
+            action: replace
+            regex: ^aws_.*
+            target_label: yace
+            replacement: 1
           relabel_configs:
             - action: keep
               regex: true
