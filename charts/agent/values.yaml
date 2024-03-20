@@ -34,7 +34,7 @@ image:
   # Overrides the image tag whose default is the chart appVersion.
   tag: "0.88.0"
 
-imagePullSecrets: [ ]
+imagePullSecrets: []
 nameOverride: ""
 fullnameOverride: ""
 
@@ -45,14 +45,14 @@ serviceAccount:
   # If not set and create is true, a name is generated using the fullname template
   name: "collector"
   # Annotations to add to the service account
-  annotations: { }
+  annotations: {}
 
-podAnnotations: { }
+podAnnotations: {}
 
-podSecurityContext: { }
+podSecurityContext: {}
 # fsGroup: 2000
 
-securityContext: { }
+securityContext: {}
 # capabilities:
 #   drop:
 #   - ALL
@@ -312,7 +312,8 @@ config:
         ### to the end after namespace declaration
         - action: upsert
           from_attribute: service
-          key: service.name # required for proper job name of target_info
+          key: service.name
+        # required for proper job name of target_info
         - action: upsert
           from_attribute: project
           key: service.namespace
@@ -362,26 +363,26 @@ config:
     zpages:
       endpoint: :55679
   service:
-    extensions: [ pprof, zpages, health_check ]
+    extensions: [pprof, zpages, health_check]
     telemetry:
       logs:
         level: INFO
     pipelines:
       traces:
-        receivers: [ otlp ]
-        processors: [ memory_limiter, resource, resource/tempo, batch ]
-        exporters: [ logging, otlp/global ]
+        receivers: [otlp]
+        processors: [memory_limiter, resource, resource/tempo, batch]
+        exporters: [logging, otlp/global]
       metrics:
-        exporters: [ logging, otlp/global ]
+        exporters: [logging, otlp/global]
         processors:
           - memory_limiter
           - transform
           - resource
           - transform/metrics
           - batch/metrics
-        receivers: [ otlp, prometheus ]
+        receivers: [otlp, prometheus]
       logs/logfmt: &logs-pipeline
-        exporters: [ logging, otlp/global ]
+        exporters: [logging, otlp/global]
         processors:
           - memory_limiter
           - filter/non-container
@@ -392,7 +393,7 @@ config:
           - resource
           - resource/loki-labels
           - batch
-        receivers: [ otlp, filelog ]
+        receivers: [otlp, filelog]
       logs/raw:
         <<: *logs-pipeline
         processors:
