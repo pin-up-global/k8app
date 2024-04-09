@@ -41,6 +41,9 @@ spec:
     {{- if .Values.consulinject.enabled }}
         consul.hashicorp.com/connect-inject: "true"
     {{- end }}
+    {{- with .Values.podAnnotations }}
+      {{- toYaml . | nindent 6 }}
+    {{- end }}
         checksum/secrets: {{ printf "%v" .Values.secrets | sha256sum }}
         checksum/conf: {{ printf "%v" .Values.configmap | sha256sum }}
       labels:
