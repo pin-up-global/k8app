@@ -21,6 +21,9 @@ serviceAccountName: app  # infra should always create service account "app"
 deployment:
   enabled: true
 
+podAnnotations:
+  extra.io/path: "/call/me"
+
 rbac:
   create: false
   resources: []
