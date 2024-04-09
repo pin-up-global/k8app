@@ -30,6 +30,9 @@ spec:
   template:
     metadata:
       annotations:
+    {{- with .Values.podAnnotations }}
+      {{- toYaml . | nindent 8 }}
+    {{- end }}      
     {{- if .Values.branch }}
         app/branch: {{ default "" .Values.branch |quote }}
     {{- end }}
