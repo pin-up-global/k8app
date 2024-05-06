@@ -60,6 +60,9 @@ spec:
       {{- if eq .podAntiAffinity nil }}
         podAntiAffinity:
           preferredDuringSchedulingIgnoredDuringExecution:
+          - weight: 1
+            podAffinityTerm:
+              labelSelector:
             - labelSelector:
                 matchExpressions:
                 - key: app
