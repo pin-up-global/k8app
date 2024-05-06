@@ -62,10 +62,10 @@ spec:
           preferredDuringSchedulingIgnoredDuringExecution:
             - labelSelector:
                 matchExpressions:
-                  - key: app.kubernetes.io/name
-                    operator: In
-                    values:
-                      - {{ $appname }}
+                - key: app
+                  operator: In
+                  values:
+                  - {{ $appname }}
               topologyKey: "kubernetes.io/hostname"
       {{- end }}
         {{- toYaml . | nindent 8 }}
