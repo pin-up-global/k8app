@@ -55,7 +55,9 @@ spec:
       tolerations:
 {{. | toYaml | indent 8}}
       {{- end}}
-      affinity:
+      {{- with .Values.affinity }}
+      affinity: 
+      {{- if eq .podAntiAffinity nil }}
         podAntiAffinity:
           preferredDuringSchedulingIgnoredDuringExecution:
           - weight: 1
@@ -67,6 +69,9 @@ spec:
                   values:
                   - {{ $appname }}
               topologyKey: "kubernetes.io/hostname"
+      {{- end }}
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
     {{- if .Values.serviceAccountName }}
       serviceAccountName: {{ .Values.serviceAccountName}}
     {{- else if .Values.rbac.create }}
