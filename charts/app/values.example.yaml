@@ -75,3 +75,15 @@ pdb:
   }
   minAvailable: 1
   maxUnavailable: 1
+
+vpa:
+  enabled: true
+  updatePolicy:
+    updateMode: "Auto"
+  minAllowed:
+    cpu: "250m"
+    memory: "100Mi"
+  maxAllowed:
+    cpu: "500m"
+    memory: "600Mi"
+
