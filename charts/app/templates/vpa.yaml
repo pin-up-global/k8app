@@ -14,8 +14,10 @@ spec:
     apiVersion: apps/v1
     kind: Deployment
     name: {{ .Values.appName }}
+  {{- with .Values.vpa.updatePolicy }}
   updatePolicy:
-    updateMode: {{ .Values.vpa.updateMode | quote }}
+    {{- toYaml . | nindent 4 }}
+  {{- end }}
   resourcePolicy:
     containerPolicies:
     - containerName: {{ $appname }}
