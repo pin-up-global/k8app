@@ -254,7 +254,6 @@ hpa:
 
 pdb:
   enabled: false
-  maxUnavailable: 1
 
 configfiles: {}
   # mountPath: "/etc/app"
