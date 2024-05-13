@@ -258,6 +258,7 @@ vpa:
 
 pdb:
   enabled: false
+  apiVersion: "policy/v1beta1" 
 
 configfiles: {}
   # mountPath: "/etc/app"
