@@ -3,11 +3,11 @@ apiVersion: {{ .Values.vpa.apiVersion }}
 kind: VerticalPodAutoscaler
 metadata:
   labels:
-    app: {{ $appname }}
-    appver: "{{ .Values.image.tag }}"
+    app: {{ template "name" . }}
+    appver: {{ .Values.image.tag }}
     chart: "{{.Chart.Name}}-{{.Chart.Version}}"
-    release: "{{ .Release.Name }}"
-  name: {{ $appname }}
+    release: {{ .Release.Name }}
+  name: {{ template "name" . }}
   namespace: {{ .Release.Namespace }}
 spec:
   targetRef:
@@ -20,7 +20,7 @@ spec:
   {{- end }}
   resourcePolicy:
     containerPolicies:
-    - containerName: {{ $appname }}
+    - containerName: {{ template "name" . }}
       {{- with .Values.vpa.controlledResources }}
       controlledResources:
         {{- toYaml . | nindent 8 }}
