@@ -252,6 +252,10 @@ hpa:
   cpu: 70
   memory: 70
 
+vpa:
+  enabled: false
+  apiVersion: "autoscaling.k8s.io/v1"
+
 pdb:
   enabled: false
 
