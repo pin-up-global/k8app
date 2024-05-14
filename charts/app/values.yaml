@@ -252,8 +252,13 @@ hpa:
   cpu: 70
   memory: 70
 
+vpa:
+  enabled: false
+  apiVersion: "autoscaling.k8s.io/v1"
+
 pdb:
   enabled: false
+  apiVersion: "policy/v1beta1"
 
 configfiles: {}
   # mountPath: "/etc/app"

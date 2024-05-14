@@ -1,0 +1,39 @@
+{{- if .Values.vpa.enabled -}}
+apiVersion: {{ .Values.vpa.apiVersion }}
+kind: VerticalPodAutoscaler
+metadata:
+  labels:
+    app: {{ template "name" . }}
+    appver: {{ .Values.image.tag }}
+    chart: "{{.Chart.Name}}-{{.Chart.Version}}"
+    release: {{ .Release.Name }}
+  name: {{ template "name" . }}
+  namespace: {{ .Release.Namespace }}
+spec:
+  targetRef:
+    apiVersion: apps/v1
+    kind: Deployment
+    name: {{ .Values.appName }}
+  {{- with .Values.vpa.updatePolicy }}
+  updatePolicy:
+    {{- toYaml . | nindent 4 }}
+  {{- end }}
+  resourcePolicy:
+    containerPolicies:
+    - containerName: {{ template "name" . }}
+      {{- with .Values.vpa.controlledResources }}
+      controlledResources:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- if .Values.vpa.controlledValues }}
+      controlledValues: {{ .Values.vpa.controlledValues }}
+      {{- end }}
+      {{- if .Values.vpa.maxAllowed }}
+      maxAllowed:
+        {{ toYaml .Values.vpa.maxAllowed | nindent 8 }}
+      {{- end }}
+      {{- if .Values.vpa.minAllowed }}
+      minAllowed:
+        {{ toYaml .Values.vpa.minAllowed | nindent 8 }}
+      {{- end }}
+{{- end -}}
